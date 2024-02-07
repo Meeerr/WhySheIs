@@ -19,10 +19,79 @@
       border-radius: 20px;
       color: #fff; /* White text */
     }
+    .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
   </style>
 </head>
 <body>
+<!-- Modal -->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <p id="modalText"></p>
+  </div>
+</div>
 
+<script>
+// Wait for the DOM to be fully loaded
+document.addEventListener("DOMContentLoaded", function() {
+  // Content for the modal
+  var modalContent = "So I don't know if you will try to open this again but if you do then you'll be reading this. So it seems like you've already unfriended and unfollowed me in all social media accounts which is why it always comes to my mind why, but you know, I'm always avoiding you since the first tike I saw you again at school, and also your note just don't know if it's meant for me but yeah overthinking made me think it was me you're talking about. Despite everything that's happened, I'm still regretful for the mistakes and choices I've made that annoyed or angered you still, you're still the one that I still have feelings for and yeah gin unfriend mo na ko, ignored, or I may or may not be able to talk to you again. But I want you to know that I was sincere about you and still thinking about you always makes my heart a bit lighter even though we don't interact anymore, I know that I was very selfish at that time or not only that time but also in the near future but yeah I'm trying. Maybe because I'm trying so hard at other things which made me like this. Now this is just wishful thinking lng ya nga mabasahan mo ni HAHAHAHA";
+
+  // Get the modal
+  var modal = document.getElementById("myModal");
+  // Get the modal content element
+  var modalText = document.getElementById("modalText");
+
+  // Set the text content of the modal
+  modalText.textContent = modalContent;
+
+  // Show the modal
+  modal.style.display = "block";
+
+  // Close the modal when clicked outside of it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+
+ // Update counter file
+  fetch('counter.txt')
+    .then(response => response.text())
+    .then(data => {
+      const count = parseInt(data) + 1;
+      const date = new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' });
+      const message = `${count}. A user has viewed your website - ${date}\n`;
+
+      fetch('counter.txt', {
+        method: 'PUT',
+        body: message
+      });
+    })
+    .catch(error => {
+      console.error('Error updating counter:', error);
+    });
+});
+
+</script>
 <div class="container">
   <h1 class="mb-4">Why Karylle</h1>
   
@@ -103,7 +172,7 @@
       "modalIsaMasterpiece": "That’s right a masterpiece, everything about you is a masterpiece gd like each has its own. Like every side mo gd ya nga nabal an ko may ara gd nga iya gd which makes me admit defeat nlng(always). Arang daw every piece or side of you makes up for that whole nga ga create something unique and special gd yaaa.",
       "modalIsaStunningBeauty": "Gwapa na ganiiii hambal kooo, pero arang daw everytime nga gakakita taka ya its like whole new world gd yaaa. Indi mn lng about sa looks gd pero arang radiance bala haww ambot daw ka budlay explain basta daw amo na sya. Nga arang nahuya lng ko permi everytime makita tapa ka nga ga kung ano ano da, ara pagd tong nga tupad ta hayss nakatupad mn ko sa celebrity baaa",
       "modalIsExceptional": "Well idk sa iban pero amongs the crowd you are that ano gd ya nga ga stand out. From acads mo palang truly exceptional gd ah since sang gahambal kato how hard ya kabalo gd ko ya nga grabe mn imo time and effort para makapasar lng. Anddd as an officer pa very responsible gd yaaa grabe pa mag pinta2 kag kung ano da.",
-      "modalIsaWorkofArt": "Well from personality to appearance palang work of art nagd ya with different blend of qualities. Just like how you admire a painting for its beauty bala daw amo na sa ah, idk lng sng mga types of painting haaa pero its just something creating from the way you are, the way you look bala haw nga daw ka unique.",
+      "modalIsaWorkOfArt": "Well from personality to appearance palang work of art nagd ya with different blend of qualities. Just like how you admire a painting for its beauty bala daw amo na sa ah, idk lng sng mga types of painting haaa pero its just something creating from the way you are, the way you look bala haw nga daw ka unique.",
       "modalIsMagnificent": "Sa presence mo palang ayyy ka magnificent gd yaa, like it commands attention gd ya bala haw and admiration. Parehos kay magnificent sa movie bala na may aura gd and oh the charisma pa nga ga pa stand out gd ya. Basta everything you do makes it memorable for me idk lng sa iban, kay its too hard to forget mn sng charisma mo many times nga gadungan ta tricycle ah tulok2 palang ko gni.",
       "modalIsRemarkable": "Indi lang sa kay mga ginpanghimo mo perooo that impact gd bala nga gapabilin haww basta daw nd ko lng madescribe gd ya. Masulit2 nlng ni kay basta ang imo nga napang achieve and napanghimo is gakaremember ko gd and noted wera nlng sa exceptions kay syempre taho mn lng ta pero basta ikaw ya gina try ko gd na remember.",
       "modalIsaMarvel": "Well it’s because you are a wonder. Like a marvel in nature bala nga ga captivate gd ya sng attention from you achievements and qualities balaa. Arang daw maka question mn ko nga grabe saimo gd ya like pano guro ga work imo mind?",
@@ -132,7 +201,7 @@
 
   // Create a modal for each button
   const modalId = `modal${phrases[i].replace(/\s+/g, '')}`;
-  const modal = createModal(modalId, `Why Karylle ${phrases[i]}`, modalContents[modalId]);
+  const modal = createModal(modalId, `Why Karylle is ${phrases[i]}`, modalContents[modalId]);
   document.body.appendChild(modal);
 
   // Add event listener to open modal on button click
